@@ -1,0 +1,22 @@
+.mapContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 10%);
+    /* 5 columns */
+    grid-template-rows: repeat(2, 70%);
+    /* 2 rows */
+    gap: 10px;
+    padding: 20px;
+    justify-content: center;
+    /* Center the grid */
+}
+
+.parkingSlot {
+    width: 100px;
+    height: 200px;
+    border: 5px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
