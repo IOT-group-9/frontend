@@ -26,6 +26,36 @@ const ParkingMap = () => {
                 { id: 16, x: 875, y: 175, width: 100, height: 150, isOccupied: false },
             ];
             setParkingSlots(mockParkingData);
+
+            const ws = new WebSocket('ws://localhost:3000/api/parking');
+
+            ws.onopen = () => {
+                ws.send(JSON.stringify({ type: 'subscribe' }));
+            }
+
+            ws.onmessage = (event) => {
+                const update = JSON.parse(event.data);
+
+                setParkingSlots(prevSlots => {
+                    const updatedSlots = prevSlots.map(slot => {
+                        if (slot.id === update.id) {
+                            return { ...slot, isOccupied: update.isOccupied };
+                        }
+                        return slot;
+                    });
+
+                    return updatedSlots;
+                }
+                );
+            }
+
+            ws.onclose = () => {
+                console.log('Connection closed');
+
+                return () => {
+                    ws.close();
+                }
+            }
         };
 
         fetchParkingData();
