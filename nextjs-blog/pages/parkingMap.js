@@ -27,15 +27,34 @@ const ParkingMap = () => {
             ];
             setParkingSlots(mockParkingData);
 
-            const ws = new WebSocket('ws://localhost:3000/api/parking');
+            const ws = new WebSocket('ws://localhost:8000/api/pubsub/subscribe');
 
             ws.onopen = () => {
-                ws.send(JSON.stringify({ type: 'subscribe' }));
+                ws.send(JSON.stringify({
+                  "request": {
+                      "method": "subscribe",
+                      "arguments": {"topics": ["1/1"]},
+                  },
+              }));
             }
 
             ws.onmessage = (event) => {
                 const update = JSON.parse(event.data);
-
+                    // Get the request from message
+                const request = update.request;
+                
+                if (request) {
+                    // Create notification response with the call_id
+                    const notify = {
+                        response: {
+                            result: "None",
+                            result_type: "None",
+                            call_id: request.call_id
+                        }
+                    };
+                    ws.send(JSON.stringify(notify));
+                  }
+                console.log('Received message:', event.data);
                 setParkingSlots(prevSlots => {
                     const updatedSlots = prevSlots.map(slot => {
                         if (slot.id === update.id) {
