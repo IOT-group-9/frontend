@@ -1,15 +1,12 @@
 version: '3.8'
 services:
   frontend:
-    image: qazer25/iot-frontend
+    image: qazer25/iot-frontend:${app_VERSION:-latest}
     build:
       context: ./
       dockerfile: Dockerfile
-    environment:
-      NEXT_PUBLIC_BACKEND_HOST: broadcast-backend-api.broadcast-backend.svc.cluster.local
-      NEXT_PUBLIC_MAP: 1
-      NEXT_PUBLIC_PARKING_PLACE: 1
-      NEXT_PUBLIC_LEVEL: 1
+      args:
+        NEXT_PUBLIC_BACKEND_HOST: fedoraapi.relentlessadmin.org 
     ports:
-      - "3001:3000"
+      - "3000:3000"
 
