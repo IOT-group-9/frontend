@@ -58,7 +58,7 @@ const ParkingMap = () => {
 
     let request_map = await fetch(`https://${HOST}/api/parking/map?parking_place=${newInputs.place}&level_no=${newInputs.level}&__page_size=1&__range_header=true`);
     if (request_map.status != 200) {
-      return;
+      setParkingSlots([]);
     }
 
     let get_map = (await request_map.json()).rows;
@@ -131,7 +131,7 @@ const ParkingMap = () => {
     };
   }, []);
 
-  
+
 
   const statusColors = {
     occupied: '#FFB6B3',  // red
@@ -148,7 +148,7 @@ const ParkingMap = () => {
             className={styles.parkingSlot}
             style={{
               left: `${slot.x1}px`,
-              top: `${slot.y2}px`,
+              top: `${slot.y1}px`,
               width: `${slot.x2 - slot.x1}px`,
               height: `${slot.y2 - slot.y1}px`,
               backgroundColor: statusColors[slot.occupied] || statusColors.default
@@ -159,30 +159,30 @@ const ParkingMap = () => {
         ))}
       </div>
       <div className="map-inputs-container">
-      <div>
-        <label className="map-label" htmlFor="level">Level:</label>
-        <input
-          type="text"
-          id="level"
-          name="level"
-          value={inputs.level}
-          onChange={handleChange}
-          className="map-input"
-        />
-      </div>
+        <div>
+          <label className="map-label" htmlFor="level">Level:</label>
+          <input
+            type="text"
+            id="level"
+            name="level"
+            value={inputs.level}
+            onChange={handleChange}
+            className="map-input"
+          />
+        </div>
 
-      <div>
-        <label className="map-label" htmlFor="place">Place:</label>
-        <input
-          type="text"
-          id="place"
-          name="place"
-          value={inputs.place}
-          onChange={handleChange}
-          className="map-input"
-        />
+        <div>
+          <label className="map-label" htmlFor="place">Place:</label>
+          <input
+            type="text"
+            id="place"
+            name="place"
+            value={inputs.place}
+            onChange={handleChange}
+            className="map-input"
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };
