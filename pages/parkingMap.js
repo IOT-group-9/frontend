@@ -148,7 +148,7 @@ const ParkingMap = () => {
             className={styles.parkingSlot}
             style={{
               left: `${slot.x1}px`,
-              top: `${slot.y2}px`,
+              top: `${slot.y1}px`,
               width: `${slot.x2 - slot.x1}px`,
               height: `${slot.y2 - slot.y1}px`,
               backgroundColor: statusColors[slot.occupied] || statusColors.default
